@@ -1,0 +1,7 @@
+abstract class {{name}} {
+  {{returnType.name}} operate(
+    {{#parameters}}
+    {{#type.isArray}}List<{{/type.isArray}}{{type.name}}{{#type.isArray}}>{{/type.isArray}} {{name}}{{^isLast}},{{/isLast}}
+    {{/parameters}}
+  );
+}

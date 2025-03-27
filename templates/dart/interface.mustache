@@ -1,0 +1,13 @@
+class {{name}} {
+  {{#properties}}
+  {{#type.isArray}}List<{{/type.isArray}}{{type.name}}{{#type.isArray}}>{{/type.isArray}}{{#isOptional}}?{{/isOptional}} {{name}};
+  {{/properties}}
+
+  {{name}}(
+    {{#hasProperties}}{
+    {{#properties}}
+    {{^isOptional}}required{{/isOptional}} this.{{name}}{{^isLast}},{{/isLast}}
+    {{/properties}}
+    }{{/hasProperties}}
+  );
+}

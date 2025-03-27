@@ -1,0 +1,38 @@
+
+enum MyEnum1 {
+  A("1"), 
+  B("2"), 
+  C("3");
+
+  final String value;
+  const MyEnum1(this.value);
+}
+
+
+enum MyEnum2 {
+  TEST_1("TEST_1"), 
+  TEST_2("TEST_2");
+
+  final String value;
+  const MyEnum2(this.value);
+}
+
+
+enum MyEnum3 {
+  TEST_1("HiThisIsTest1"), 
+  TEST_2("HiThisIsTest2");
+
+  final String value;
+  const MyEnum3(this.value);
+}
+
+
+enum MyEnum4 {
+  TEST_1("1"), 
+  TEST_2("2"), 
+  TEST_3("HiThisIsTest3"), 
+  TEST_4("HiThisIsTest4");
+
+  final String value;
+  const MyEnum4(this.value);
+}

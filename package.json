@@ -1,0 +1,41 @@
+{
+  "name": "ts-to-any-converter",
+  "version": "1.0.0",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/ts-to-any-converter.es.js",
+      "require": "./dist/ts-to-any-converter.umd.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "vite build",
+    "test": "vitest",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "mustache": "^4.2.0",
+    "ts-morph": "^25.0.1",
+    "typescript": "5.7.3"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.23.0",
+    "@types/mustache": "^4.2.5",
+    "@types/node": "^22.13.12",
+    "eslint": "^9.23.0",
+    "globals": "^16.0.0",
+    "tsx": "^4.19.3",
+    "typescript-eslint": "^8.28.0",
+    "vite": "^6.2.3",
+    "vite-plugin-dts": "^3.7.3",
+    "vitest": "^3.0.9"
+  }
+}
