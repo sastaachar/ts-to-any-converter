@@ -1,21 +1,16 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import Mustache from 'mustache';
-import { EnumIR, FunctionIR, InterfaceIR, TemplateType } from './tars.types';
-import { DefaultLanguage } from './converter.types';
+import { EnumIR, FunctionIR, InterfaceIR, TarsResult, TemplateType } from './tars.types';
+import { DefaultLanguageTemplate } from './converter.types';
 
 export type LanguageTemplateConfig =
   | { type: 'custom'; templatePath: string }
-  | { type: 'default'; template: DefaultLanguage };
+  | { type: 'default'; template: DefaultLanguageTemplate };
 
 type RenderEngineConfig = {
   language: LanguageTemplateConfig;
-}
-
-type IntermediatesOutput = {
-  enum: EnumIR[];
-  interface: InterfaceIR[];
-  function: FunctionIR[];
+  skipTypes?: string[];
 }
 
 /**
@@ -26,22 +21,28 @@ export class RenderEngine {
 
   private defaultFileEncoding = 'utf8' as const;
 
-  private defaultTemplatePaths = {
+  private skipTypes: string[] = [];
+
+  private defaultTemplatePaths: Record<TemplateType, string> = {
     [TemplateType.Enum]: 'enum.mustache',
     [TemplateType.Interface]: 'interface.mustache',
     [TemplateType.Function]: 'function.mustache',
+    [TemplateType.Union]: 'union.mustache',
+    [TemplateType.Unhandled]: 'unhandled.mustache',
   }
 
   private templates: Record<TemplateType, string>;
 
-  private getDefaultTemplatePath(language: DefaultLanguage) {
+  private getDefaultTemplatePath(language: DefaultLanguageTemplate) {
     const defaultTemplateRoot = 'templates';
-    return path.resolve(defaultTemplateRoot, language);
+    console.log(import.meta.url, ' awd');
+    return path.resolve('/Users/justin.mathew/Documents/source/ts_code_workspace/ts-to-any-converter', defaultTemplateRoot, language);
   }
 
 
   constructor(config: RenderEngineConfig) {
     this.templates = this.loadAndGetTemplates(config.language);
+    this.skipTypes = config.skipTypes || [];
   }
 
   /**
@@ -68,6 +69,9 @@ export class RenderEngine {
 
 
   renderTemplate = (templateType: TemplateType, data: EnumIR | InterfaceIR | FunctionIR) => {
+    if (this.skipTypes.includes(data.name)) {
+      return '';
+    }
     const template = this.getTemplate(templateType);
     return Mustache.render(template, data);
   }
@@ -85,7 +89,7 @@ export class RenderEngine {
     return this.renderTemplate(TemplateType.Function, functionIR);
   }
 
-  renderIntermediates = (intermediates: IntermediatesOutput): string => {
+  renderIntermediates = (intermediates: TarsResult): string => {
     return Object.entries(intermediates).map(([templateType, templates]) => {
       return templates.map(template => this.renderTemplate(templateType as TemplateType, template)).join('\n');
     }).join('\n');

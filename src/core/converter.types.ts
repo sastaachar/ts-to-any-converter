@@ -8,7 +8,7 @@ export interface ConversionConfig {
 /**
  * Supported default template languages
  */
-export enum DefaultLanguage {
+export enum DefaultLanguageTemplate {
   Dart = 'dart',
   Kotlin = 'kotlin',
   Swift = 'swift'
@@ -53,11 +53,22 @@ export interface ConverterConfig {
   /**
    * Conversion configs 
    */
-  conversionConfigs?: {
-    typeMappings?: Record<string, string>;
-    overrideDefaultTypeMappings?: boolean;
-    runtimeTypeNameFormatter?: (...names: string[]) => string;
+  typeConfigs?: {
+    mappings?: Record<string, string>;
+    overrideDefaultMappings?: boolean;
+    runtimeNameFormatter?: (...names: string[]) => string;
+    skipTypes?: string[];
   };
+
+  /**
+   * Lines to append to the generated file
+   */
+  headerContent?: string;
+
+  /**
+   * Lines to append to the generated file
+   */
+  footerContent?: string;
 }
 
 

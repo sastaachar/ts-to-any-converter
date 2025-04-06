@@ -1,6 +1,6 @@
 import { describe, test, expect } from 'vitest';
 import { TypeScriptConverter } from '../src/core/converter';
-import { DefaultLanguage } from '../src/core/converter.types';
+import { DefaultLanguageTemplate } from '../src/core/converter.types';
 import * as path from 'path';
 import * as fs from 'fs';
 
@@ -21,13 +21,13 @@ describe('All tests', () => {
         inputFiles: [inputPath],
         language: {
           type: 'default',
-          template: DefaultLanguage.Dart
+          template: DefaultLanguageTemplate.Dart
         },
-        conversionConfigs: {
-          typeMappings: {
+        typeConfigs: {
+          mappings: {
             "string | number": "String"
           },
-          runtimeTypeNameFormatter: (...names: string[]) => {
+          runtimeNameFormatter: (...names: string[]) => {
             // capitalize the first letter of each word
             return names.map(e => e.charAt(0).toUpperCase() + e.slice(1)).join('');
           }

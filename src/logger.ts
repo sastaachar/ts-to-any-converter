@@ -8,23 +8,24 @@ class Logger {
     this.name = name;
   }
 
-  log(...messages: string[]) {
+  log(...messages: unknown[]) {
+    console.log('hi')
     console.log(`[${this.name}]`, ...messages);
   }
 
-  error(...messages: string[]) {
+  error(...messages: unknown[]) {
     console.error(`[${this.name}]`, ...messages);
   }
 
-  warn(...messages: string[]) {
+  warn(...messages: unknown[]) {
     console.warn(`[${this.name}]`, ...messages);
   }
 
-  debug(...messages: string[]) {
+  debug(...messages: unknown[]) {
     console.debug(`[${this.name}]`, ...messages);
   }
 
-  info(...messages: string[]) {
+  info(...messages: unknown[]) {
     console.info(`[${this.name}]`, ...messages);
   }
 }

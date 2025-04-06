@@ -9,6 +9,10 @@ const dartConfig = {
     "any": "dynamic",
     "void": "void",
     "null": "Null",
+    "undefined": "Null",
+    "true": "bool",
+    "false": "bool",
+    "Promise": "Future<dynamic>",
   },
 };
 

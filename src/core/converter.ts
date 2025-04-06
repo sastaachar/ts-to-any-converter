@@ -5,7 +5,6 @@ import { Tars } from './tars';
 import { RenderEngine } from './render-engine';
 import { Project } from 'ts-morph';
 
-
 const formatWithUnderScore = (...names: string[]) => names.join('__');
 
 /**
@@ -27,10 +26,10 @@ export class TypeScriptConverter {
   }
 
   getTypeMappingsFromConfig(config: ConverterConfig) {
-    if (config.conversionConfigs.overrideDefaultTypeMappings && config.conversionConfigs.typeMappings) {
-      return config.conversionConfigs.typeMappings;
+    if (config.typeConfigs.overrideDefaultMappings && config.typeConfigs.mappings) {
+      return config.typeConfigs.mappings;
     }
-    return { ...this.defaultConfigs.typeMappings, ...config.conversionConfigs.typeMappings };
+    return { ...this.defaultConfigs.typeMappings, ...config.typeConfigs.mappings };
   }
 
   constructor(config: ConverterConfig) {
@@ -42,22 +41,27 @@ export class TypeScriptConverter {
     })
 
 
-
     this.tars = new Tars({
       project: this.project,
       runtimeTypeNameFormatter:
-        config.conversionConfigs.runtimeTypeNameFormatter || this.defaultConfigs.runtimeTypeNameFormatter,
-      typeMappings: this.getTypeMappingsFromConfig(config)
-    });
+        config.typeConfigs.runtimeNameFormatter || this.defaultConfigs.runtimeTypeNameFormatter,
+      typeMappings: this.getTypeMappingsFromConfig(config),
+     });
     this.renderEngine = new RenderEngine({
-      language: this.config.language
+      language: this.config.language,
+      skipTypes: this.config.typeConfigs.skipTypes
     });
   }
 
 
   convert() {
     const intermediates = this.tars.getIntermediates();
-    return this.renderEngine.renderIntermediates(intermediates);
+    const rendered = this.renderEngine.renderIntermediates(intermediates);
+    return [
+      (this.config.headerContent || ''),
+      rendered,
+      (this.config.footerContent || '')
+    ].join('\n');
   }
 
   convertAndWriteToFile(options: { outPutFile: string }) {

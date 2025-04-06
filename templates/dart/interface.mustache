@@ -1,13 +1,22 @@
+{{{comment}}}
+
+@JsonSerializable(explicitToJson: true, includeIfNull: false)
 class {{name}} {
   {{#properties}}
-  {{#type.isArray}}List<{{/type.isArray}}{{type.name}}{{#type.isArray}}>{{/type.isArray}}{{#isOptional}}?{{/isOptional}} {{name}};
+  {{#type.isFunction}}@JsonKey(ignore: true){{/type.isFunction}}  
+  {{#type.isArray}}List<{{/type.isArray}}{{{type.name}}}{{#type.isArray}}>{{/type.isArray}}{{#isOptional}}?{{/isOptional}} {{name}};
   {{/properties}}
 
   {{name}}(
     {{#hasProperties}}{
     {{#properties}}
+    {{{comment}}}
     {{^isOptional}}required{{/isOptional}} this.{{name}}{{^isLast}},{{/isLast}}
     {{/properties}}
     }{{/hasProperties}}
   );
+
+    factory {{name}}.fromJson(Map<String, dynamic> json) => _${{name}}FromJson(json);
+
+    Map<String, dynamic> toJson() => _${{name}}ToJson(this);
 }

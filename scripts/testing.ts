@@ -1,19 +1,20 @@
 import path from "path";
 import { TypeScriptConverter } from "../src/core/converter";
-import { DefaultLanguage } from "../src/core/converter.types";
+import { DefaultLanguageTemplate } from "../src/core/converter.types";
 
 function main() {
   const converter = new TypeScriptConverter({
     inputFiles: [path.resolve('scripts', 'types.ts')],
     language: {
       type: 'default',
-      template: DefaultLanguage.Dart
+      template: DefaultLanguageTemplate.Dart
     },
-    conversionConfigs: {
-      typeMappings: {
-        "string | number": "String"
+    typeConfigs: {
+      mappings: {
+        "string | number": "String",
+        "ToSkip": "String"
       },
-      runtimeTypeNameFormatter: (...names: string[]) => {
+      runtimeNameFormatter: (...names: string[]) => {
         // capitalize the first letter of each word
         return names.map(e => e.charAt(0).toUpperCase() + e.slice(1)).join('');
       }

@@ -1,0 +1,11 @@
+@JsonSerializable(explicitToJson: true, includeIfNull: false)
+class {{name}} {
+  String value;
+
+  {{{name}}}(this.value);
+
+  factory {{name}}.fromJson(String json) => {{name}}(json);
+
+  String toJson() => value;
+
+}

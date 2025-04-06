@@ -4,17 +4,23 @@
  * It extracts and normalizes type definitions, making them easier to analyze, transform, or render into different formats.
  */
 
-import { EnumDeclaration, FunctionDeclaration, InterfaceDeclaration, Project, PropertySignature, Type } from "ts-morph";
-import { EnumIR, FunctionIR, InterfaceIR, UnhandledTypeIR, TypeRepresentation, TemplateType } from "./tars.types";
+import { EnumDeclaration, FunctionDeclaration, InterfaceDeclaration, Project, PropertySignature, SyntaxKind, Type } from "ts-morph";
+import { EnumIR, FunctionIR, InterfaceIR, UnhandledTypeIR, TypeRepresentation, TemplateType, UnionIR, TarsResult } from "./tars.types";
 import * as Utils from "../utils";
+import { getLogger } from "../logger";
 
-type TypeWithDynamicName = Type & { conversionDynamicName?: string };
+
+const logger = getLogger('TARS');
+logger.info('initialized');
+
+type TypeWithDynamicName = Type & { conversionDynamicName?: string, dynamicNames?: string[] };
 
 type TarsOption = {
   project: Project;
   runtimeTypeNameFormatter: (...names: string[]) => string;
   typeMappings: Record<string, string>;
 }
+
 
 export class Tars {
   readonly project: Project;
@@ -28,6 +34,18 @@ export class Tars {
     this.project = config.project;
     this.typeMappings = config.typeMappings;
     this.runtimeTypeNameFormatter = config.runtimeTypeNameFormatter;
+  }
+  
+  private getTypeWithDynamicName = (type: Type | TypeWithDynamicName, name: string): TypeWithDynamicName => {
+    const oldName = (type as TypeWithDynamicName).conversionDynamicName;
+    const newName = this.runtimeTypeNameFormatter(oldName, name);
+    const actualName = type.names?.[type.names.length - 1];
+    
+    const typeWithDynamicName = type as TypeWithDynamicName;
+
+    
+
+    return { ...type, conversionDynamicName: dynamicName, names: [...(type.names || []), actualName] };
   }
 
   convertEnumToIntermediate = (enumDeclaration: EnumDeclaration): EnumIR => {
@@ -57,10 +75,12 @@ export class Tars {
     [TemplateType.Function]: [] as FunctionIR[],
     [TemplateType.Interface]: [] as InterfaceIR[],
     [TemplateType.Unhandled]: [] as UnhandledTypeIR[],
+    [TemplateType.Union]: [] as UnionIR[],
   };
 
-  createRuntimeInterface = (type: TypeWithDynamicName, name: string): InterfaceIR => {
+  createRuntimeInterface = (type: TypeWithDynamicName): InterfaceIR => {
 
+    const name = type.conversionDynamicName || Utils.getRandomString(5);
     const actualType = type.getSymbol()?.getDeclarations()[0].getType();
 
     const typeProperties = actualType.getProperties().sort((a) => a.isOptional() ? 1 : -1);
@@ -95,13 +115,18 @@ export class Tars {
    * @param name 
    * @returns 
    */
-  createRuntimeFunction = (type: Type, name: string): FunctionIR => {
+  createRuntimeFunction = (type: TypeWithDynamicName): FunctionIR => {
+
+    const newName = type.conversionDynamicName || Utils.getRandomString(5);
+    const actualName = type.names?.[type.names.length - 1];
+
     const isFunction = type.getCallSignatures().length > 0;
     if (isFunction) {
       const parameters = type.getCallSignatures()[0].getParameters().sort((a) => a.isOptional() ? 1 : -1);
       const returnType = type.getCallSignatures()[0].getReturnType();
       return {
-        name,
+        name: newName,
+        actualName,
         parameters: parameters.map((param, index) => ({
           name: param.getName(),
           type: this.getIntermediateType(param.getValueDeclaration().getType()),
@@ -111,6 +136,7 @@ export class Tars {
           comment: '',
         })),
         type: 'function',
+        isFunction: true,
         returnType: this.getIntermediateType(returnType),
         hasParameters: parameters.length > 0,
         // TODO : How to get the comment?
@@ -120,19 +146,17 @@ export class Tars {
   }
 
   getRuntimeType = (type: TypeWithDynamicName): FunctionIR | InterfaceIR | UnhandledTypeIR => {
-    const newName = type.conversionDynamicName || Utils.getRandomString(5);
-
-
+    
     const isFunction = type.getCallSignatures().length > 0;
     if (isFunction) {
-      const functionType = this.createRuntimeFunction(type, newName);
+      const functionType = this.createRuntimeFunction(type);
       this.runtimeTypes[TemplateType.Function].push(functionType);
       return functionType;
     }
 
     const isTypeLiteral = type.isObject();
     if (isTypeLiteral) {
-      const interfaceType = this.createRuntimeInterface(type, newName);
+      const interfaceType = this.createRuntimeInterface(type);
       this.runtimeTypes[TemplateType.Interface].push(interfaceType);
       return interfaceType;
     }
@@ -145,26 +169,49 @@ export class Tars {
   }
 
   isSimpleType = (type: Type) => {
-    return type.isEnum() || type.isString() || type.isNumber() || type.isBoolean() || type.isVoid() || type.isUndefined() || type.isNull() || type.isAny();
+    return type.isString() || type.isNumber() || type.isBoolean() || type.isVoid() || type.isUndefined() || type.isNull() || type.isAny();
+  }
+
+
+  getUnionIR = (type: TypeWithDynamicName): UnionIR => {
+    const unionTypes = type.getUnionTypes().map((e, index) => {
+      const unionDynamicName = this.runtimeTypeNameFormatter(type.conversionDynamicName, 'Type', index.toString());
+      const typeWithDynamicNameWithType = e as TypeWithDynamicName;
+      typeWithDynamicNameWithType.conversionDynamicName = unionDynamicName;
+      return typeWithDynamicNameWithType;
+    });
+
+    const typesForIr = unionTypes.map((e, index) => {
+      const typeRepresentation = this.getIntermediateType(e);
+      return { ...typeRepresentation, isLast: index === unionTypes.length - 1 };
+    })
+
+    const uniqueTypes = typesForIr.filter((e, index, self) =>
+      index === self.findIndex((t) => t.name === e.name)
+    );
+
+    const unionIR = {
+      name: type.conversionDynamicName,
+      type: 'union' as const,
+      types: uniqueTypes,
+    }
+
+    this.runtimeTypes[TemplateType.Union].push(unionIR);
+    return unionIR;
   }
 
   // TODO : Rename this maybe
-  getIntermediateType = (type: TypeWithDynamicName) => {
+  getIntermediateType = (type: TypeWithDynamicName): TypeRepresentation => {
 
     // If there is a type mapping, use it
     const simpleText = type.getText();
-    const mappedType = this.typeMappings[simpleText];
+    const name = type.getSymbol()?.getName();
+    const mappedType = this.typeMappings[name || simpleText];
     if (mappedType) {
       return {
         name: mappedType,
         isArray: type.isArray(),
-      }
-    }
-
-    if (this.isSimpleType(type)) {
-      return {
-        name: type.getText(),
-        isArray: type.isArray(),
+        isMapped: true,
       }
     }
 
@@ -179,6 +226,24 @@ export class Tars {
       }
     }
 
+    if (type.isLiteral()) {
+      return this.getIntermediateType(type.getBaseTypeOfLiteralType())
+    }
+
+    if (type.isEnum()) {
+      return {
+        name: type.getSymbol()?.getName(),
+      }
+    }
+
+    if (this.isSimpleType(type)) {
+      return {
+        name: type.getText(),
+      }
+    }
+
+
+
     if (type.isObject()) {
 
       const name = type.getSymbol()?.getName();
@@ -190,13 +255,16 @@ export class Tars {
 
       return {
         name: name,
-        isArray: type.isArray(),
+        isFunction: type.getCallSignatures().length > 0,
       }
+    }
+
+    if (type.isUnion()) {
+      return this.getUnionIR(type);
     }
 
     return {
       name: type.getText(),
-      isArray: type.isArray(),
     }
   }
 
@@ -210,16 +278,39 @@ export class Tars {
     return this.getIntermediateType(typeWithDynamicName);
   }
 
+  getIRFromType = (type: Type, options: { dynamicName: string }) => {
+    const typeWithDynamicName = type as TypeWithDynamicName;
+    typeWithDynamicName.conversionDynamicName = options.dynamicName;
+    return this.getIntermediateType(typeWithDynamicName);
+  }
+
   convertInterfaceToIntermediate = (interfaceDeclaration: InterfaceDeclaration): InterfaceIR => {
-    const interfaceName = interfaceDeclaration.getName?.();
+    if (interfaceDeclaration.getKind() !== SyntaxKind.InterfaceDeclaration) {
+      console.warn('Not an interface', interfaceDeclaration.getText());
+      return null;
+    }
+    const interfaceName = interfaceDeclaration.getName();
 
-    // Sort the properties by optionalness
-    const typeProperties = interfaceDeclaration.getProperties().sort((a) => a.hasQuestionToken() ? 1 : -1);
+    const apparentProperties = interfaceDeclaration.getType().getApparentProperties().sort((a) => a.isOptional() ? 1 : -1);
 
-    const properties = typeProperties.map((property, index) => {
+    // Using apparent properties resolves all the types correctly
+    // Eg: Inheritance, Using aliases like Omit, Pick, etc
+    const properties: InterfaceIR['properties'] = apparentProperties.map((property, index) => {
+      const isOptional = property.isOptional();
       const name = property.getName();
-      const type = this.getPropertyType(property, { interfaceName });
-      return { name, type, isOptional: property.hasQuestionToken(), isLast: index === typeProperties.length - 1, comment: property.getJsDocs().map((doc) => doc.getText()).join('\n') };
+      const tsType = property.getTypeAtLocation(interfaceDeclaration);
+      const type = this.getIRFromType(tsType, {
+        dynamicName: this.runtimeTypeNameFormatter(interfaceName, name)
+      })
+
+      return {
+        name,
+        type,
+        isOptional,
+        isLast: index === apparentProperties.length - 1,
+        // TODO : How to get the comment?
+        comment: ''
+      }
     });
 
     return Utils.addPrev({
@@ -259,6 +350,7 @@ export class Tars {
         parameters,
         returnType,
         type: 'function',
+        isFunction: true,
         hasParameters: parameters.length > 0,
         // TODO : How to get the comment?
         comment: '',
@@ -271,12 +363,13 @@ export class Tars {
     }
   }
 
-  getIntermediates() {
+  getIntermediates(): TarsResult {
 
-    const intermediate = {
+    const intermediate: TarsResult = {
       [TemplateType.Enum]: [] as EnumIR[],
       [TemplateType.Interface]: [] as InterfaceIR[],
       [TemplateType.Function]: [] as FunctionIR[],
+      [TemplateType.Union]: [] as UnionIR[],
     };
 
     this.project.getSourceFiles().forEach((sourceFile) => {
@@ -299,6 +392,10 @@ export class Tars {
         ...intermediate[TemplateType.Function],
         ...functionIntermediates,
         ...this.runtimeTypes[TemplateType.Function]
+      ];
+      intermediate[TemplateType.Union] = [
+        ...intermediate[TemplateType.Union],
+        ...this.runtimeTypes[TemplateType.Union]
       ];
     });
 

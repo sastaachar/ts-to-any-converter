@@ -37,7 +37,10 @@ export interface InterfaceIR {
 
 export interface FunctionIR {
   type: 'function';
+  isFunction: true;
   name: string;
+  // In case of runtime type, the actual name of the function
+  actualName?: string;
   comment: string;
   hasParameters: boolean;
   parameters: {
@@ -60,9 +63,25 @@ export enum TemplateType {
   Interface = 'interface',
   Function = 'function',
   Unhandled = 'unhandled',
+  Union = 'union',
 }
 
 export interface TypeRepresentation {
   name: string;
   isArray?: boolean;
+  isMapped?: boolean;
+  isFunction?: boolean;
+}
+
+export interface UnionIR {
+  type: 'union';
+  name: string;
+  types: (TypeRepresentation & { isLast: boolean })[];
+}
+
+export type TarsResult = {
+  [TemplateType.Enum]: EnumIR[];
+  [TemplateType.Interface]: InterfaceIR[];
+  [TemplateType.Function]: FunctionIR[];
+  [TemplateType.Union]: UnionIR[];
 }
