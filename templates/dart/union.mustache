@@ -1,11 +1,13 @@
-@JsonSerializable(explicitToJson: true, includeIfNull: false)
+
+{{#_flags.useJsonSerializable}}@JsonSerializable(explicitToJson: true, includeIfNull: false){{/_flags.useJsonSerializable}}
 class {{name}} {
   String value;
 
   {{{name}}}(this.value);
 
+
+  {{#_flags.useJsonSerializable}}
   factory {{name}}.fromJson(String json) => {{name}}(json);
-
   String toJson() => value;
-
+  {{/_flags.useJsonSerializable}}
 }

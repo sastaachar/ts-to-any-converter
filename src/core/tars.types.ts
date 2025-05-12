@@ -40,7 +40,7 @@ export interface FunctionIR {
   isFunction: true;
   name: string;
   // In case of runtime type, the actual name of the function
-  actualName?: string;
+  lastLabelName?: string;
   comment: string;
   hasParameters: boolean;
   parameters: {
@@ -84,4 +84,5 @@ export type TarsResult = {
   [TemplateType.Interface]: InterfaceIR[];
   [TemplateType.Function]: FunctionIR[];
   [TemplateType.Union]: UnionIR[];
+  [TemplateType.Unhandled]: UnhandledTypeIR[];
 }

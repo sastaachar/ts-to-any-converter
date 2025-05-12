@@ -15,7 +15,8 @@
   "scripts": {
     "build": "vite build",
     "test": "vitest",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "npx" : "tsx scripts/testing.ts"
   },
   "keywords": [],
   "author": "",

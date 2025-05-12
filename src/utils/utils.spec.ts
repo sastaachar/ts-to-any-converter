@@ -1,5 +1,4 @@
 // TODO: Remove this once the issue is fixed
-/* eslint-disable import/no-extraneous-dependencies */
 import * as fs from 'fs';
 import {
     describe, it, expect, beforeEach, vi,

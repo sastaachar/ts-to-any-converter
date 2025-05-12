@@ -1,24 +1,19 @@
 import path from "path";
+import { createDartConversionConfig } from "../src/default-configs/dart";
 import { TypeScriptConverter } from "../src/core/converter";
-import { DefaultLanguageTemplate } from "../src/core/converter.types";
-
+import { LogLevel } from "../src/utils/logger";
 function main() {
+
+  const config = createDartConversionConfig({
+    templateRootPath: path.resolve('templates', 'dart'),
+    useJsonSerializable: true,
+  });
   const converter = new TypeScriptConverter({
-    inputFiles: [path.resolve('scripts', 'types.ts')],
-    language: {
-      type: 'default',
-      template: DefaultLanguageTemplate.Dart
+    conversionConfig: config,
+    inputConfig: {
+      inputFiles: [path.resolve('scripts', 'types.ts')]
     },
-    typeConfigs: {
-      mappings: {
-        "string | number": "String",
-        "ToSkip": "String"
-      },
-      runtimeNameFormatter: (...names: string[]) => {
-        // capitalize the first letter of each word
-        return names.map(e => e.charAt(0).toUpperCase() + e.slice(1)).join('');
-      }
-    }
+    logLevel: LogLevel.Info
   });
   converter.convertAndWriteToFile({
     outPutFile: path.resolve('scripts', 'types.dart'),

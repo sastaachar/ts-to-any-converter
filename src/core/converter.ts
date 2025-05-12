@@ -1,9 +1,10 @@
 import { ConverterConfig } from './converter.types';
 import * as Utils from '../utils';
-import { Configs } from '../default-configs/config';
 import { Tars } from './tars';
-import { RenderEngine } from './render-engine';
+import { RenderEngine, TemplateContent } from './render-engine';
 import { Project } from 'ts-morph';
+import { logger } from '../utils/logger';
+import { TemplateType } from './tars.types';
 
 const formatWithUnderScore = (...names: string[]) => names.join('__');
 
@@ -14,58 +15,62 @@ const formatWithUnderScore = (...names: string[]) => names.join('__');
 export class TypeScriptConverter {
 
   private config: ConverterConfig;
-
   private project: Project;
-
   private tars: Tars;
   private renderEngine: RenderEngine;
 
   private defaultConfigs = {
     runtimeTypeNameFormatter: formatWithUnderScore,
-    typeMappings: Configs.dart.typeMappings
   }
 
-  getTypeMappingsFromConfig(config: ConverterConfig) {
-    if (config.typeConfigs.overrideDefaultMappings && config.typeConfigs.mappings) {
-      return config.typeConfigs.mappings;
-    }
-    return { ...this.defaultConfigs.typeMappings, ...config.typeConfigs.mappings };
+  private getTemplateContent(template: TemplateContent): TemplateContent {
+    return template;
   }
 
   constructor(config: ConverterConfig) {
     this.project = new Project();
     this.config = config;
 
-    this.config.inputFiles.forEach(file => {
+    logger.setLogLevel(this.config.logLevel);
+
+    logger.group('Adding source files');
+    this.config.inputConfig?.inputFiles.forEach(file => {
+      logger.info(`${file}`);
       this.project.addSourceFileAtPath(file);
     })
-
+    logger.groupEnd();
 
     this.tars = new Tars({
       project: this.project,
       runtimeTypeNameFormatter:
-        config.typeConfigs.runtimeNameFormatter || this.defaultConfigs.runtimeTypeNameFormatter,
-      typeMappings: this.getTypeMappingsFromConfig(config),
-     });
+        config.conversionConfig.inlineTypeNameFormatter || this.defaultConfigs.runtimeTypeNameFormatter,
+      typeMappings: config.conversionConfig.typeMappings,
+      skipTypes: config.conversionConfig.skipTypes
+    });
+
+    const templateContent = this.getTemplateContent(config.conversionConfig.template);
     this.renderEngine = new RenderEngine({
-      language: this.config.language,
-      skipTypes: this.config.typeConfigs.skipTypes
+      templateContent,
+      additionalFlags: config.conversionConfig.additionalFlags
     });
   }
 
 
   convert() {
     const intermediates = this.tars.getIntermediates();
-    const rendered = this.renderEngine.renderIntermediates(intermediates);
-    return [
-      (this.config.headerContent || ''),
-      rendered,
-      (this.config.footerContent || '')
-    ].join('\n');
+    return this.renderEngine.renderIntermediates(intermediates);
   }
 
   convertAndWriteToFile(options: { outPutFile: string }) {
     const output = this.convert();
     return Utils.writeToFileAsync(options.outPutFile, output);
   }
+}
+
+export const DefaultTemplatePaths: Record<TemplateType, string> = {
+  [TemplateType.Enum]: 'enum.mustache',
+  [TemplateType.Interface]: 'interface.mustache',
+  [TemplateType.Function]: 'function.mustache',
+  [TemplateType.Union]: 'union.mustache',
+  [TemplateType.Unhandled]: 'unhandled.mustache',
 }

@@ -1,6 +1,6 @@
 {{{comment}}}
 
-@JsonEnum(valueField: 'value')
+{{#_flags.useJsonSerializable}}@JsonEnum(valueField: 'value'){{/_flags.useJsonSerializable}}
 enum {{name}} {
   {{#options}}
     {{#comment}}

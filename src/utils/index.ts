@@ -1,6 +1,4 @@
 import * as fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
 
 const fileService = fs.promises;
 
@@ -43,17 +41,44 @@ export const addPrev = <T>(obj: T): T => {
     if (Array.isArray(child)) {
       child.forEach((item, idx) => {
         obj[key][idx] = addPrev(item);
-        // eslint-disable-next-line no-underscore-dangle
         obj[key][idx][appPrevKey] = obj;
       });
     } else if (typeof child === 'object' && child !== null) {
       obj[key] = addPrev(obj[key]);
-      // eslint-disable-next-line no-underscore-dangle
       obj[key][appPrevKey] = obj;
     }
   });
   return obj;
 };
+
+export const addKeyRecursively = <T>(obj: T, key: string, value: unknown): T => {
+  if (typeof obj !== 'object' || obj === null) {
+    return obj;
+  }
+
+  if (key in obj) {
+    return obj;
+  }
+
+  obj[key] = value;
+
+  Object.keys(obj).forEach((objKey) => {
+    
+    if (objKey === key) return;
+    
+    const child = obj[objKey];
+
+    if (Array.isArray(child)) {
+      child.forEach((item, idx) => {
+        obj[objKey][idx] = addKeyRecursively(item, key, value);
+      });
+    } else if (typeof child === 'object' && child !== null) {
+      obj[objKey] = addKeyRecursively(obj[objKey], key, value);
+    }
+  });
+
+  return obj;
+}
 
 
 export const getRandomString = (length: number = 5) => {

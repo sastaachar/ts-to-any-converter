@@ -1,9 +1,8 @@
 {{{comment}}}
-
-@JsonSerializable(explicitToJson: true, includeIfNull: false)
+{{#type._flags.useJsonSerializable}}@JsonSerializable(explicitToJson: true, includeIfNull: false){{/type._flags.useJsonSerializable}}
 class {{name}} {
   {{#properties}}
-  {{#type.isFunction}}@JsonKey(ignore: true){{/type.isFunction}}  
+  {{#type._flags.useJsonSerializable}} {{#type.isFunction}}@JsonKey(ignore: true){{/type.isFunction}}{{/type._flags.useJsonSerializable}}
   {{#type.isArray}}List<{{/type.isArray}}{{{type.name}}}{{#type.isArray}}>{{/type.isArray}}{{#isOptional}}?{{/isOptional}} {{name}};
   {{/properties}}
 
@@ -15,8 +14,8 @@ class {{name}} {
     {{/properties}}
     }{{/hasProperties}}
   );
-
+  {{#_flags.useJsonSerializable}}
     factory {{name}}.fromJson(Map<String, dynamic> json) => _${{name}}FromJson(json);
-
     Map<String, dynamic> toJson() => _${{name}}ToJson(this);
+  {{/_flags.useJsonSerializable}}
 }
