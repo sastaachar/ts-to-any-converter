@@ -114,7 +114,7 @@ export class Tars {
    * @returns 
    */
   createRuntimeFunction = (type: TypeWithDynamicName): FunctionIR => {
-    
+
     const newName = type.conversionDynamicName || Utils.getRandomString(5);
     const actualName = type.names?.[type.names.length - 1];
 
@@ -198,9 +198,9 @@ export class Tars {
   }
 
   getIntermediateType = (type: TypeWithDynamicName): TypeRepresentation => {
-    logger.group(type.getText());
+    logger.debugGroup(type.getText());
     const ir = this.getIntermediateTypeInternal(type);
-    logger.groupEnd();
+    logger.debugGroupEnd();
 
     return ir;
   }
@@ -304,7 +304,7 @@ export class Tars {
         dynamicName: [interfaceName, name]
       })
 
-     
+
       return {
         name,
         type,
@@ -327,9 +327,9 @@ export class Tars {
 
   convertFunctionToIntermediate = (functionDeclaration: FunctionDeclaration): FunctionIR => {
     const functionName = functionDeclaration.getName();
-    
+
     logger.groupTag('Function', functionName);
-    
+
     const typeParameters = functionDeclaration.getParameters().sort((a) => a.isOptional() ? 1 : -1);;
     const parameters = typeParameters.map((param, index) => {
       const paramType = param.getType();

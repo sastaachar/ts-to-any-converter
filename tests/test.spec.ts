@@ -1,42 +1,48 @@
 import { describe, test, expect } from 'vitest';
 import { TypeScriptConverter } from '../src/core/converter';
-import { DefaultLanguageTemplate } from '../src/core/converter.types';
 import * as path from 'path';
 import * as fs from 'fs';
+import { createDartConversionConfig } from '../src/default-configs/dart';
+
+const testCases = fs.readdirSync(path.resolve(__dirname, 'cases'));
+console.log("testCases", testCases);
 
 describe('All tests', () => {
-  // get all test cases 
-  const testCases = fs.readdirSync(path.resolve(__dirname, 'cases'));
 
-  testCases.forEach((testCase) => {
-    test(testCase, () => {
-      const inputPath = path.resolve(__dirname, 'cases', testCase, 'input');
-      const expectedOutputPath = path.resolve(__dirname, 'cases', testCase, 'output');
-      const expectedOutput = fs.readFileSync(expectedOutputPath, 'utf8');
+  test.each(testCases)("%s", (testCase) => {
 
-      console.log("inputPath", inputPath);
-      console.log("expectedOutputPath", expectedOutputPath);
 
-      const converter = new TypeScriptConverter({
-        inputFiles: [inputPath],
-        language: {
-          type: 'default',
-          template: DefaultLanguageTemplate.Dart
-        },
-        typeConfigs: {
-          mappings: {
-            "string | number": "String"
-          },
-          runtimeNameFormatter: (...names: string[]) => {
-            // capitalize the first letter of each word
-            return names.map(e => e.charAt(0).toUpperCase() + e.slice(1)).join('');
-          }
-        }
-        // Optionally use custom templates
-      });
+    console.log("testCase", testCase);
+    const inputPath = path.resolve(__dirname, 'cases', testCase, 'input.ts');
+    const expectedOutputPath = path.resolve(__dirname, 'cases', testCase, 'output');
+    const expectedOutput = fs.readFileSync(expectedOutputPath, 'utf8');
 
-      const output = converter.convert();
-      expect(output).toMatch(expectedOutput);
+    const config = createDartConversionConfig({
+      templateRootPath: path.resolve('templates', 'dart'),
+      useJsonSerializable: true,
+      additionalTypeMappings: {
+        "string | number": "String"
+      },
+      inlineTypeNameFormatter: (...names: string[]) => {
+        // capitalize the first letter of each word
+        return names.filter((e): e is string => typeof e === 'string').map(e => e.charAt(0).toUpperCase() + e.slice(1)).join('');
+      },
     });
+
+    const converter = new TypeScriptConverter({
+      inputConfig: {
+        inputFiles: [inputPath]
+      },
+      conversionConfig: config
+    });
+
+    const output = converter.convert();
+    //write output to a temp file
+    const tempOutputPath = path.join('tests/outputs', `${testCase}.dart`);
+    fs.mkdirSync(path.dirname(tempOutputPath), { recursive: true });
+    fs.writeFileSync(tempOutputPath, output);
+    // the above will help debugging the output
+
+    expect(output).toMatch(expectedOutput);
   });
 });

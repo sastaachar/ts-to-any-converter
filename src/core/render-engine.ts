@@ -41,12 +41,12 @@ export class RenderEngine {
       (this.config.headerContent || ''),
       rendered,
       (this.config.footerContent || '')
-    ].join('\n');
+    ].join('\n').trim();
   }
 
   renderIntermediates = (intermediates: TarsResult): string => {
     return Object.entries(intermediates).map(([templateType, templates]) => {
       return templates.map(template => this.renderTemplate(templateType as TemplateType, template)).join('\n');
-    }).join('\n');
+    }).join('\n').trim();
   }
 }

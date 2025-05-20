@@ -116,6 +116,16 @@ export interface ConversionConfig {
    * ```
    */
   additionalFlags?: Record<string, string>;
+
+  /**
+   * tsconfig.json file path  
+   * 
+   * @example
+   * ```typescript
+   * tsConfigFilePath: './tsconfig.json'
+   * ```
+   */
+  tsConfigFilePath?: string;
 }
 
 export interface InputConfig {

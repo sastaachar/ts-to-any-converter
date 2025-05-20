@@ -1,0 +1,129 @@
+class GetPhoneReturn {
+   
+  String number;
+   
+  String type;
+
+  GetPhoneReturn(
+    {
+    
+    required this.number,
+    
+    required this.type
+    }
+  );
+    factory GetPhoneReturn.fromJson(Map<String, dynamic> json) => _$GetPhoneReturnFromJson(json);
+    Map<String, dynamic> toJson() => _$GetPhoneReturnToJson(this);
+}
+class GetAddressZipCountry {
+   
+  String code;
+   
+  String name;
+
+  GetAddressZipCountry(
+    {
+    
+    required this.code,
+    
+    required this.name
+    }
+  );
+    factory GetAddressZipCountry.fromJson(Map<String, dynamic> json) => _$GetAddressZipCountryFromJson(json);
+    Map<String, dynamic> toJson() => _$GetAddressZipCountryToJson(this);
+}
+class GetAddressZip {
+   
+  GetAddressZipCountry country;
+   
+  String code;
+
+  GetAddressZip(
+    {
+    
+    required this.country,
+    
+    required this.code
+    }
+  );
+    factory GetAddressZip.fromJson(Map<String, dynamic> json) => _$GetAddressZipFromJson(json);
+    Map<String, dynamic> toJson() => _$GetAddressZipToJson(this);
+}
+class GetAddressReturnZipCountry {
+   
+  String code;
+   
+  String name;
+
+  GetAddressReturnZipCountry(
+    {
+    
+    required this.code,
+    
+    required this.name
+    }
+  );
+    factory GetAddressReturnZipCountry.fromJson(Map<String, dynamic> json) => _$GetAddressReturnZipCountryFromJson(json);
+    Map<String, dynamic> toJson() => _$GetAddressReturnZipCountryToJson(this);
+}
+class GetAddressReturnZip {
+   
+  GetAddressReturnZipCountry country;
+   
+  String code;
+
+  GetAddressReturnZip(
+    {
+    
+    required this.country,
+    
+    required this.code
+    }
+  );
+    factory GetAddressReturnZip.fromJson(Map<String, dynamic> json) => _$GetAddressReturnZipFromJson(json);
+    Map<String, dynamic> toJson() => _$GetAddressReturnZipToJson(this);
+}
+class GetAddressReturn {
+   
+  GetAddressReturnZip zip;
+   
+  String state;
+   
+  String city;
+   
+  String street;
+
+  GetAddressReturn(
+    {
+    
+    required this.zip,
+    
+    required this.state,
+    
+    required this.city,
+    
+    required this.street
+    }
+  );
+    factory GetAddressReturn.fromJson(Map<String, dynamic> json) => _$GetAddressReturnFromJson(json);
+    Map<String, dynamic> toJson() => _$GetAddressReturnToJson(this);
+}
+abstract class getToken {
+  String (
+    List<String> a
+  );
+}
+abstract class getPhone {
+  GetPhoneReturn (
+    String number,
+    String type
+  );
+}
+abstract class getAddress {
+  GetAddressReturn (
+    GetAddressZip zip,
+    String state,
+    String street,
+    String city
+  );
+}

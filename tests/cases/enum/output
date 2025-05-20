@@ -1,4 +1,4 @@
-
+@JsonEnum(valueField: 'value')
 enum MyEnum1 {
   A("1"), 
   B("2"), 
@@ -7,8 +7,7 @@ enum MyEnum1 {
   final String value;
   const MyEnum1(this.value);
 }
-
-
+@JsonEnum(valueField: 'value')
 enum MyEnum2 {
   TEST_1("TEST_1"), 
   TEST_2("TEST_2");
@@ -16,8 +15,7 @@ enum MyEnum2 {
   final String value;
   const MyEnum2(this.value);
 }
-
-
+@JsonEnum(valueField: 'value')
 enum MyEnum3 {
   TEST_1("HiThisIsTest1"), 
   TEST_2("HiThisIsTest2");
@@ -25,8 +23,7 @@ enum MyEnum3 {
   final String value;
   const MyEnum3(this.value);
 }
-
-
+@JsonEnum(valueField: 'value')
 enum MyEnum4 {
   TEST_1("1"), 
   TEST_2("2"), 

@@ -4,6 +4,7 @@ export enum LogLevel {
   Error = 0,
   Warn = 1,
   Info = 2,
+  Debug = 3,
 }
 
 export class Logger {
@@ -54,9 +55,6 @@ export class Logger {
   }
 
   group(...data: string[]) {
-    if (!this.canLog(LogLevel.Info)) {
-      return;
-    }
     console.group(...data);
   }
 
@@ -67,13 +65,30 @@ export class Logger {
     console.group(...this.getMessageToLog(data, LogLevel.Info));
   }
 
-  groupEnd() {
-    if (!this.canLog(LogLevel.Info)) {
+  debug(...messages: string[]) {
+    if (!this.canLog(LogLevel.Debug)) {
       return;
     }
+    console.debug(...this.getMessageToLog(messages, LogLevel.Debug));
+  }
+
+  debugGroup(...messages: string[]) {
+    if (!this.canLog(LogLevel.Debug)) {
+      return;
+    }
+    this.group(...this.getMessageToLog(messages, LogLevel.Debug));
+  }
+
+  groupEnd() {
     console.groupEnd();
   }
 
+  debugGroupEnd() {
+    if (!this.canLog(LogLevel.Debug)) {
+      return;
+    }
+    this.groupEnd();
+  }
 }
 
 export const logger = new Logger('T2A');

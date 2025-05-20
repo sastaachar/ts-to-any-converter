@@ -1,6 +1,3 @@
-
-
-
 @JsonEnum(valueField: 'value')
 enum UserStatus {
   ACTIVE("ACTIVE"), 
@@ -11,10 +8,6 @@ enum UserStatus {
   const UserStatus(this.value);
 }
 
-
-
-
-
 @JsonEnum(valueField: 'value')
 enum UserStatus {
   ACTIVE("ACTIVE"), 
@@ -24,10 +17,6 @@ enum UserStatus {
   final String value;
   const UserStatus(this.value);
 }
-
-
-
-
 
 class ToSkip {
    
@@ -43,10 +32,6 @@ class ToSkip {
     Map<String, dynamic> toJson() => _$ToSkipToJson(this);
 }
 
-
-
-
-
 class ToSkip2 {
    
   ToSkip skip2;
@@ -61,10 +46,6 @@ class ToSkip2 {
     Map<String, dynamic> toJson() => _$ToSkip2ToJson(this);
 }
 
-
-
-
-
 class GrandParent {
    
   GrandParent__fromGrandParent fromGrandParent;
@@ -78,10 +59,6 @@ class GrandParent {
     factory GrandParent.fromJson(Map<String, dynamic> json) => _$GrandParentFromJson(json);
     Map<String, dynamic> toJson() => _$GrandParentToJson(this);
 }
-
-
-
-
 
 class Base {
    
@@ -104,10 +81,6 @@ class Base {
     factory Base.fromJson(Map<String, dynamic> json) => _$BaseFromJson(json);
     Map<String, dynamic> toJson() => _$BaseToJson(this);
 }
-
-
-
-
 
 class MyUser {
    
@@ -134,10 +107,6 @@ class MyUser {
     factory MyUser.fromJson(Map<String, dynamic> json) => _$MyUserFromJson(json);
     Map<String, dynamic> toJson() => _$MyUserToJson(this);
 }
-
-
-
-
 
 class WhatsUp {
    
@@ -185,10 +154,6 @@ class WhatsUp {
     Map<String, dynamic> toJson() => _$WhatsUpToJson(this);
 }
 
-
-
-
-
 class ToSkip {
    
   String skip;
@@ -202,10 +167,6 @@ class ToSkip {
     factory ToSkip.fromJson(Map<String, dynamic> json) => _$ToSkipFromJson(json);
     Map<String, dynamic> toJson() => _$ToSkipToJson(this);
 }
-
-
-
-
 
 class ToSkip2 {
    
@@ -221,10 +182,6 @@ class ToSkip2 {
     Map<String, dynamic> toJson() => _$ToSkip2ToJson(this);
 }
 
-
-
-
-
 class GrandParent {
    
   GrandParent__fromGrandParent fromGrandParent;
@@ -238,10 +195,6 @@ class GrandParent {
     factory GrandParent.fromJson(Map<String, dynamic> json) => _$GrandParentFromJson(json);
     Map<String, dynamic> toJson() => _$GrandParentToJson(this);
 }
-
-
-
-
 
 class Base {
    
@@ -264,10 +217,6 @@ class Base {
     factory Base.fromJson(Map<String, dynamic> json) => _$BaseFromJson(json);
     Map<String, dynamic> toJson() => _$BaseToJson(this);
 }
-
-
-
-
 
 class MyUser {
    
@@ -295,10 +244,6 @@ class MyUser {
     Map<String, dynamic> toJson() => _$MyUserToJson(this);
 }
 
-
-
-
-
 class MyFunctionInter {
    
   String lol;
@@ -321,10 +266,6 @@ class MyFunctionInter {
     Map<String, dynamic> toJson() => _$MyFunctionInterToJson(this);
 }
 
-
-
-
-
 class MyFunctionInter2 {
    
   MyFunctionInter ok;
@@ -343,10 +284,6 @@ class MyFunctionInter2 {
     Map<String, dynamic> toJson() => _$MyFunctionInter2ToJson(this);
 }
 
-
-
-
-
 class Base__address__street__Type__5 {
    
   String a;
@@ -360,10 +297,6 @@ class Base__address__street__Type__5 {
     factory Base__address__street__Type__5.fromJson(Map<String, dynamic> json) => _$Base__address__street__Type__5FromJson(json);
     Map<String, dynamic> toJson() => _$Base__address__street__Type__5ToJson(this);
 }
-
-
-
-
 
 class Base__address__street__Type__6 {
    
@@ -379,10 +312,6 @@ class Base__address__street__Type__6 {
     Map<String, dynamic> toJson() => _$Base__address__street__Type__6ToJson(this);
 }
 
-
-
-
-
 class Base__address__street__Type__7 {
    
   String b;
@@ -396,10 +325,6 @@ class Base__address__street__Type__7 {
     factory Base__address__street__Type__7.fromJson(Map<String, dynamic> json) => _$Base__address__street__Type__7FromJson(json);
     Map<String, dynamic> toJson() => _$Base__address__street__Type__7ToJson(this);
 }
-
-
-
-
 
 class Base__address {
    
@@ -427,10 +352,6 @@ class Base__address {
     Map<String, dynamic> toJson() => _$Base__addressToJson(this);
 }
 
-
-
-
-
 class Base__age {
    
   String unit;
@@ -448,10 +369,6 @@ class Base__age {
     factory Base__age.fromJson(Map<String, dynamic> json) => _$Base__ageFromJson(json);
     Map<String, dynamic> toJson() => _$Base__ageToJson(this);
 }
-
-
-
-
 
 class MyUser__age {
    
@@ -471,10 +388,6 @@ class MyUser__age {
     Map<String, dynamic> toJson() => _$MyUser__ageToJson(this);
 }
 
-
-
-
-
 class WhatsUp__statusAll2 {
    
   UserStatus status;
@@ -488,10 +401,6 @@ class WhatsUp__statusAll2 {
     factory WhatsUp__statusAll2.fromJson(Map<String, dynamic> json) => _$WhatsUp__statusAll2FromJson(json);
     Map<String, dynamic> toJson() => _$WhatsUp__statusAll2ToJson(this);
 }
-
-
-
-
 
 class WhatsUp__phone {
    
@@ -511,10 +420,6 @@ class WhatsUp__phone {
     Map<String, dynamic> toJson() => _$WhatsUp__phoneToJson(this);
 }
 
-
-
-
-
 class WhatsUp__address__zip__country {
    
   String code;
@@ -533,10 +438,6 @@ class WhatsUp__address__zip__country {
     Map<String, dynamic> toJson() => _$WhatsUp__address__zip__countryToJson(this);
 }
 
-
-
-
-
 class WhatsUp__address__zip {
    
   WhatsUp__address__zip__country country;
@@ -554,10 +455,6 @@ class WhatsUp__address__zip {
     factory WhatsUp__address__zip.fromJson(Map<String, dynamic> json) => _$WhatsUp__address__zipFromJson(json);
     Map<String, dynamic> toJson() => _$WhatsUp__address__zipToJson(this);
 }
-
-
-
-
 
 class WhatsUp__address {
    
@@ -585,10 +482,6 @@ class WhatsUp__address {
     Map<String, dynamic> toJson() => _$WhatsUp__addressToJson(this);
 }
 
-
-
-
-
 class Base__address__street__Type__5 {
    
   String a;
@@ -602,10 +495,6 @@ class Base__address__street__Type__5 {
     factory Base__address__street__Type__5.fromJson(Map<String, dynamic> json) => _$Base__address__street__Type__5FromJson(json);
     Map<String, dynamic> toJson() => _$Base__address__street__Type__5ToJson(this);
 }
-
-
-
-
 
 class Base__address__street__Type__6 {
    
@@ -621,10 +510,6 @@ class Base__address__street__Type__6 {
     Map<String, dynamic> toJson() => _$Base__address__street__Type__6ToJson(this);
 }
 
-
-
-
-
 class Base__address__street__Type__7 {
    
   String b;
@@ -638,10 +523,6 @@ class Base__address__street__Type__7 {
     factory Base__address__street__Type__7.fromJson(Map<String, dynamic> json) => _$Base__address__street__Type__7FromJson(json);
     Map<String, dynamic> toJson() => _$Base__address__street__Type__7ToJson(this);
 }
-
-
-
-
 
 class Base__address {
    
@@ -669,10 +550,6 @@ class Base__address {
     Map<String, dynamic> toJson() => _$Base__addressToJson(this);
 }
 
-
-
-
-
 class Base__age {
    
   String unit;
@@ -690,10 +567,6 @@ class Base__age {
     factory Base__age.fromJson(Map<String, dynamic> json) => _$Base__ageFromJson(json);
     Map<String, dynamic> toJson() => _$Base__ageToJson(this);
 }
-
-
-
-
 
 class MyUser__age {
    
@@ -713,10 +586,6 @@ class MyUser__age {
     Map<String, dynamic> toJson() => _$MyUser__ageToJson(this);
 }
 
-
-
-
-
 class getPhone__return {
    
   String number;
@@ -734,10 +603,6 @@ class getPhone__return {
     factory getPhone__return.fromJson(Map<String, dynamic> json) => _$getPhone__returnFromJson(json);
     Map<String, dynamic> toJson() => _$getPhone__returnToJson(this);
 }
-
-
-
-
 
 class getAddress__zip__country {
    
@@ -757,10 +622,6 @@ class getAddress__zip__country {
     Map<String, dynamic> toJson() => _$getAddress__zip__countryToJson(this);
 }
 
-
-
-
-
 class getAddress__zip {
    
   getAddress__zip__country country;
@@ -778,10 +639,6 @@ class getAddress__zip {
     factory getAddress__zip.fromJson(Map<String, dynamic> json) => _$getAddress__zipFromJson(json);
     Map<String, dynamic> toJson() => _$getAddress__zipToJson(this);
 }
-
-
-
-
 
 class getAddress__return__zip__country {
    
@@ -801,10 +658,6 @@ class getAddress__return__zip__country {
     Map<String, dynamic> toJson() => _$getAddress__return__zip__countryToJson(this);
 }
 
-
-
-
-
 class getAddress__return__zip {
    
   getAddress__return__zip__country country;
@@ -822,10 +675,6 @@ class getAddress__return__zip {
     factory getAddress__return__zip.fromJson(Map<String, dynamic> json) => _$getAddress__return__zipFromJson(json);
     Map<String, dynamic> toJson() => _$getAddress__return__zipToJson(this);
 }
-
-
-
-
 
 class getAddress__return {
    
@@ -853,10 +702,6 @@ class getAddress__return {
     Map<String, dynamic> toJson() => _$getAddress__returnToJson(this);
 }
 
-
-
-
-
 class getPhone__return {
    
   String number;
@@ -874,10 +719,6 @@ class getPhone__return {
     factory getPhone__return.fromJson(Map<String, dynamic> json) => _$getPhone__returnFromJson(json);
     Map<String, dynamic> toJson() => _$getPhone__returnToJson(this);
 }
-
-
-
-
 
 class getAddress__zip__country {
    
@@ -897,10 +738,6 @@ class getAddress__zip__country {
     Map<String, dynamic> toJson() => _$getAddress__zip__countryToJson(this);
 }
 
-
-
-
-
 class getAddress__zip {
    
   getAddress__zip__country country;
@@ -918,10 +755,6 @@ class getAddress__zip {
     factory getAddress__zip.fromJson(Map<String, dynamic> json) => _$getAddress__zipFromJson(json);
     Map<String, dynamic> toJson() => _$getAddress__zipToJson(this);
 }
-
-
-
-
 
 class getAddress__return__zip__country {
    
@@ -941,10 +774,6 @@ class getAddress__return__zip__country {
     Map<String, dynamic> toJson() => _$getAddress__return__zip__countryToJson(this);
 }
 
-
-
-
-
 class getAddress__return__zip {
    
   getAddress__return__zip__country country;
@@ -962,10 +791,6 @@ class getAddress__return__zip {
     factory getAddress__return__zip.fromJson(Map<String, dynamic> json) => _$getAddress__return__zipFromJson(json);
     Map<String, dynamic> toJson() => _$getAddress__return__zipToJson(this);
 }
-
-
-
-
 
 class getAddress__return {
    
@@ -993,9 +818,121 @@ class getAddress__return {
     Map<String, dynamic> toJson() => _$getAddress__returnToJson(this);
 }
 
+class getPhone__return {
+   
+  String number;
+   
+  String type;
 
+  getPhone__return(
+    {
+    
+    required this.number,
+    
+    required this.type
+    }
+  );
+    factory getPhone__return.fromJson(Map<String, dynamic> json) => _$getPhone__returnFromJson(json);
+    Map<String, dynamic> toJson() => _$getPhone__returnToJson(this);
+}
 
+class getAddress__zip__country {
+   
+  String code;
+   
+  String name;
 
+  getAddress__zip__country(
+    {
+    
+    required this.code,
+    
+    required this.name
+    }
+  );
+    factory getAddress__zip__country.fromJson(Map<String, dynamic> json) => _$getAddress__zip__countryFromJson(json);
+    Map<String, dynamic> toJson() => _$getAddress__zip__countryToJson(this);
+}
+
+class getAddress__zip {
+   
+  getAddress__zip__country country;
+   
+  String code;
+
+  getAddress__zip(
+    {
+    
+    required this.country,
+    
+    required this.code
+    }
+  );
+    factory getAddress__zip.fromJson(Map<String, dynamic> json) => _$getAddress__zipFromJson(json);
+    Map<String, dynamic> toJson() => _$getAddress__zipToJson(this);
+}
+
+class getAddress__return__zip__country {
+   
+  String code;
+   
+  String name;
+
+  getAddress__return__zip__country(
+    {
+    
+    required this.code,
+    
+    required this.name
+    }
+  );
+    factory getAddress__return__zip__country.fromJson(Map<String, dynamic> json) => _$getAddress__return__zip__countryFromJson(json);
+    Map<String, dynamic> toJson() => _$getAddress__return__zip__countryToJson(this);
+}
+
+class getAddress__return__zip {
+   
+  getAddress__return__zip__country country;
+   
+  String code;
+
+  getAddress__return__zip(
+    {
+    
+    required this.country,
+    
+    required this.code
+    }
+  );
+    factory getAddress__return__zip.fromJson(Map<String, dynamic> json) => _$getAddress__return__zipFromJson(json);
+    Map<String, dynamic> toJson() => _$getAddress__return__zipToJson(this);
+}
+
+class getAddress__return {
+   
+  getAddress__return__zip zip;
+   
+  String state;
+   
+  String city;
+   
+  String street;
+
+  getAddress__return(
+    {
+    
+    required this.zip,
+    
+    required this.state,
+    
+    required this.city,
+    
+    required this.street
+    }
+  );
+    factory getAddress__return.fromJson(Map<String, dynamic> json) => _$getAddress__returnFromJson(json);
+    Map<String, dynamic> toJson() => _$getAddress__returnToJson(this);
+}
 
 abstract class getToken {
   String (
@@ -1003,18 +940,12 @@ abstract class getToken {
   );
 }
 
-
-
-
 abstract class getPhone {
   getPhone__return (
     String number,
     String type
   );
 }
-
-
-
 
 abstract class getAddress {
   getAddress__return (
@@ -1025,17 +956,11 @@ abstract class getAddress {
   );
 }
 
-
-
-
 abstract class getToken {
   String (
     List<String> a
   );
 }
-
-
-
 
 abstract class getPhone {
   getPhone__return (
@@ -1043,9 +968,6 @@ abstract class getPhone {
     String type
   );
 }
-
-
-
 
 abstract class getAddress {
   getAddress__return (
@@ -1056,8 +978,27 @@ abstract class getAddress {
   );
 }
 
+abstract class getToken {
+  String (
+    List<String> a
+  );
+}
 
+abstract class getPhone {
+  getPhone__return (
+    String number,
+    String type
+  );
+}
 
+abstract class getAddress {
+  getAddress__return (
+    getAddress__zip zip,
+    String state,
+    String street,
+    String city
+  );
+}
 
 abstract class WhatsUp__getToken {
   String getToken(
@@ -1065,25 +1006,17 @@ abstract class WhatsUp__getToken {
   );
 }
 
-
-
-
 abstract class MyFunctionInter__test {
   String test(
     String a
   );
 }
 
-
-
-
 abstract class MyFunctionInter__getToken {
   String getToken(
     List<String> a
   );
 }
-
-
 
 @JsonSerializable(explicitToJson: true, includeIfNull: false)
 class GrandParent__fromGrandParent {
@@ -1096,9 +1029,6 @@ class GrandParent__fromGrandParent {
   String toJson() => value;
 }
 
-
-
-
 @JsonSerializable(explicitToJson: true, includeIfNull: false)
 class Base__fromGrandParent {
   String value;
@@ -1109,9 +1039,6 @@ class Base__fromGrandParent {
   factory Base__fromGrandParent.fromJson(String json) => Base__fromGrandParent(json);
   String toJson() => value;
 }
-
-
-
 
 @JsonSerializable(explicitToJson: true, includeIfNull: false)
 class Base__address__street {
@@ -1124,9 +1051,6 @@ class Base__address__street {
   String toJson() => value;
 }
 
-
-
-
 @JsonSerializable(explicitToJson: true, includeIfNull: false)
 class MyUser__fromGrandParent {
   String value;
@@ -1137,9 +1061,6 @@ class MyUser__fromGrandParent {
   factory MyUser__fromGrandParent.fromJson(String json) => MyUser__fromGrandParent(json);
   String toJson() => value;
 }
-
-
-
 
 @JsonSerializable(explicitToJson: true, includeIfNull: false)
 class WhatsUp__customType {
@@ -1152,9 +1073,6 @@ class WhatsUp__customType {
   String toJson() => value;
 }
 
-
-
-
 @JsonSerializable(explicitToJson: true, includeIfNull: false)
 class GrandParent__fromGrandParent {
   String value;
@@ -1165,9 +1083,6 @@ class GrandParent__fromGrandParent {
   factory GrandParent__fromGrandParent.fromJson(String json) => GrandParent__fromGrandParent(json);
   String toJson() => value;
 }
-
-
-
 
 @JsonSerializable(explicitToJson: true, includeIfNull: false)
 class Base__fromGrandParent {
@@ -1180,9 +1095,6 @@ class Base__fromGrandParent {
   String toJson() => value;
 }
 
-
-
-
 @JsonSerializable(explicitToJson: true, includeIfNull: false)
 class Base__address__street {
   String value;
@@ -1194,9 +1106,6 @@ class Base__address__street {
   String toJson() => value;
 }
 
-
-
-
 @JsonSerializable(explicitToJson: true, includeIfNull: false)
 class MyUser__fromGrandParent {
   String value;
@@ -1207,5 +1116,3 @@ class MyUser__fromGrandParent {
   factory MyUser__fromGrandParent.fromJson(String json) => MyUser__fromGrandParent(json);
   String toJson() => value;
 }
-
-

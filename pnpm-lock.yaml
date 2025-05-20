@@ -9,7 +9,7 @@ dependencies:
     specifier: ^4.2.0
     version: 4.2.0
   ts-morph:
-    specifier: ^25.0.1
+    specifier: 25.0.1
     version: 25.0.1
   typescript:
     specifier: 5.7.3

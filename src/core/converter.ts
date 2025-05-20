@@ -28,7 +28,12 @@ export class TypeScriptConverter {
   }
 
   constructor(config: ConverterConfig) {
-    this.project = new Project();
+    
+    const projectConfig = config.conversionConfig.tsConfigFilePath  
+      ? { tsConfigFilePath: config.conversionConfig.tsConfigFilePath }
+      : {};
+
+    this.project = new Project(projectConfig);
     this.config = config;
 
     logger.setLogLevel(this.config.logLevel);

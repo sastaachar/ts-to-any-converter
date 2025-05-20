@@ -14,9 +14,10 @@
   ],
   "scripts": {
     "build": "vite build",
-    "test": "vitest",
+    "test": "vitest --run",
+    "test:watch": "vitest",
     "prepublishOnly": "npm run build",
-    "npx" : "tsx scripts/testing.ts"
+    "npx": "tsx scripts/testing.ts"
   },
   "keywords": [],
   "author": "",
@@ -24,7 +25,7 @@
   "description": "",
   "dependencies": {
     "mustache": "^4.2.0",
-    "ts-morph": "^25.0.1",
+    "ts-morph": "25.0.1",
     "typescript": "5.7.3"
   },
   "devDependencies": {
