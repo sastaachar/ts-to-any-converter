@@ -1,12 +1,12 @@
 {
-  "name": "ts-to-any-converter",
+  "name": "@thoughtspot/ts-to-any",
   "version": "1.0.0",
   "type": "module",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/ts-to-any-converter.es.js",
-      "require": "./dist/ts-to-any-converter.umd.js"
+      "import": "./dist/ts-to-any.es.js",
+      "require": "./dist/ts-to-any.umd.js"
     }
   },
   "files": [

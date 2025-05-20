@@ -1,4 +1,4 @@
-import { DefaultLanguageTemplate, TypeScriptConverter } from '../../ts-to-any-converter/src';
+import { DefaultLanguageTemplate, TypeScriptConverter } from '@thoughtspot/ts-to-any';
 
 /**
  *

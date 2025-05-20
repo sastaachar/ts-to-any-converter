@@ -7,7 +7,7 @@ export default defineConfig({
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
       name: 'TypeScriptConverter',
-      fileName: (format) => `ts-to-any-converter.${format}.js`,
+      fileName: (format) => `ts-to-any.${format}.js`,
       formats: ['es', 'umd'],
     },
   },
